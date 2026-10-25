@@ -1,0 +1,823 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Dashboard | School Management System</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Constantia, "Times New Roman", Georgia, serif;
+        }
+
+        body {
+            background:
+                linear-gradient(
+                    rgba(244,247,251,0.90),
+                    rgba(244,247,251,0.90)
+                ),
+                url("{% static 'admin.png' %}");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #172b4d;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        .student-navbar {
+            height: 70px;
+
+            background: linear-gradient(
+                135deg,
+                #172b4d,
+                #243f68
+            );
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+
+            box-shadow: 0 4px 15px rgba(23,43,77,0.18);
+        }
+
+        .brand {
+            color: white;
+            font-size: 23px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .brand span {
+            color: #ffb51b;
+        }
+
+        .student-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .student-name {
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #fff3df;
+
+            border-radius: 50%;
+
+            font-size: 21px;
+        }
+
+        .logout-btn {
+            text-decoration: none;
+
+            color: white;
+
+            border: 1px solid rgba(255,255,255,0.35);
+
+            padding: 8px 15px;
+
+            border-radius: 8px;
+
+            font-size: 12px;
+            font-weight: bold;
+
+            margin-left: 10px;
+        }
+
+        .logout-btn:hover {
+            background: #ff8a00;
+            border-color: #ff8a00;
+        }
+
+
+        /* ================= PAGE ================= */
+
+        .dashboard-container {
+            max-width: 1400px;
+
+            margin: auto;
+
+            padding: 28px 25px 40px;
+        }
+
+
+        /* ================= WELCOME ================= */
+
+        .welcome-box {
+
+            position: relative;
+            overflow: hidden;
+
+            background: linear-gradient(
+                135deg,
+                rgba(23,43,77,0.98),
+                rgba(40,84,134,0.96)
+            );
+
+            color: white;
+
+            border-radius: 18px;
+
+            padding: 30px 34px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 12px 30px rgba(23,43,77,0.18);
+        }
+
+        .welcome-box::after {
+
+            content: "🎓";
+
+            position: absolute;
+
+            right: 35px;
+            top: 10px;
+
+            font-size: 95px;
+
+            opacity: 0.08;
+        }
+
+        .welcome-box h1 {
+
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+        .welcome-box p {
+
+            color: #dce8f5;
+
+            font-size: 14px;
+        }
+
+
+        /* ================= STUDENT INFORMATION ================= */
+
+        .student-info {
+
+            background: rgba(255,255,255,0.97);
+
+            border: 1px solid #e5eaf1;
+
+            border-radius: 17px;
+
+            padding: 22px 25px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 8px 22px rgba(23,43,77,0.08);
+        }
+
+        .info-title {
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            margin-bottom: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .info-icon {
+
+            width: 36px;
+            height: 36px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #fff3df;
+
+            border-radius: 10px;
+
+            font-size: 18px;
+        }
+
+        .info-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+        }
+
+        .info-item {
+
+            background: #f8fafc;
+
+            border-radius: 11px;
+
+            padding: 13px 15px;
+        }
+
+        .info-label {
+
+            color: #7a8798;
+
+            font-size: 11px;
+
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+
+            color: #172b4d;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        /* ================= STUDENT MODULES ================= */
+
+        .section-heading {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            margin-bottom: 15px;
+        }
+
+        .module-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .module-card {
+
+            background: rgba(255,255,255,0.97);
+
+            border: 1px solid #e5eaf1;
+
+            border-radius: 16px;
+
+            padding: 23px;
+
+            text-decoration: none;
+
+            box-shadow:
+                0 8px 20px rgba(23,43,77,0.07);
+
+            transition: 0.3s;
+        }
+
+        .module-card:hover {
+
+            transform: translateY(-5px);
+
+            border-color: #ffb45c;
+
+            box-shadow:
+                0 14px 28px rgba(23,43,77,0.13);
+        }
+
+        .module-icon {
+
+            width: 52px;
+            height: 52px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #fff3df;
+
+            border-radius: 14px;
+
+            font-size: 25px;
+
+            margin-bottom: 14px;
+        }
+
+        .module-card h3 {
+
+            color: #172b4d;
+
+            font-size: 16px;
+
+            margin-bottom: 6px;
+        }
+
+        .module-card p {
+
+            color: #7d8998;
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
+            margin-bottom: 12px;
+        }
+
+        .open-text {
+
+            color: #ff8500;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        /* ================= STUDY MATERIAL ================= */
+
+        .material-box {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fffaf2,
+                    #ffffff
+                );
+
+            border: 1px solid #f0dfc6;
+
+            border-radius: 17px;
+
+            padding: 23px 25px;
+
+            box-shadow:
+                0 8px 20px rgba(23,43,77,0.07);
+        }
+
+        .material-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 8px;
+        }
+
+        .material-header h2 {
+
+            font-size: 19px;
+        }
+
+        .material-header span {
+
+            background: #fff3df;
+
+            color: #c56b00;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+        .material-box p {
+
+            color: #748091;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        .footer {
+
+            text-align: center;
+
+            padding: 20px;
+
+            color: #7c8795;
+
+            font-size: 12px;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1000px) {
+
+            .info-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .module-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .student-navbar {
+
+                padding: 0 15px;
+
+            }
+
+            .brand {
+
+                font-size: 17px;
+
+            }
+
+            .student-name {
+
+                display: none;
+
+            }
+
+            .dashboard-container {
+
+                padding: 18px 15px;
+
+            }
+
+            .info-grid,
+            .module-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .welcome-box {
+
+                padding: 24px;
+
+            }
+
+            .welcome-box h1 {
+
+                font-size: 22px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= STUDENT NAVBAR ================= -->
+
+<nav class="student-navbar">
+
+    <a href="{% url 'student_dashboard' %}" class="brand">
+        School <span>Management System</span>
+    </a>
+
+
+    <div class="student-user">
+
+        <div class="student-avatar">
+            🎓
+        </div>
+
+        <div class="student-name">
+            {{ student.name }}
+        </div>
+
+        <a href="{% url 'logout' %}" class="logout-btn">
+            Logout
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="dashboard-container">
+
+
+    <!-- ================= WELCOME ================= -->
+
+    <div class="welcome-box">
+
+        <h1>
+            Welcome, {{ student.name }} 👋
+        </h1>
+
+        <p>
+            Welcome to your Student Dashboard.
+            View your academic information, attendance,
+            results, fees and study materials here.
+        </p>
+
+    </div>
+
+
+
+    <!-- ================= STUDENT INFORMATION ================= -->
+
+    <div class="student-info">
+
+        <div class="info-title">
+
+            <div class="info-icon">
+                🎓
+            </div>
+
+            My Student Information
+
+        </div>
+
+
+        <div class="info-grid">
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Student Name
+                </div>
+
+                <div class="info-value">
+                    {{ student.name }}
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Roll Number
+                </div>
+
+                <div class="info-value">
+                    {{ student.roll_no }}
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Class
+                </div>
+
+                <div class="info-value">
+                    {{ student.school_class }}
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-label">
+                    Email
+                </div>
+
+                <div class="info-value">
+                    {{ student.email|default:"Not Provided" }}
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= MODULES ================= -->
+
+    <div class="section-heading">
+        Student Services
+    </div>
+
+
+    <div class="module-grid">
+
+
+        <!-- ATTENDANCE -->
+
+        <a href="{% url 'student_attendance' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                📅
+            </div>
+
+            <h3>
+                My Attendance
+            </h3>
+
+            <p>
+                Check your attendance records,
+                present days and attendance percentage.
+            </p>
+
+            <div class="open-text">
+                View Attendance →
+            </div>
+
+        </a>
+
+
+
+        <!-- RESULTS -->
+
+        <a href="{% url 'student_results' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                📊
+            </div>
+
+            <h3>
+                My Results
+            </h3>
+
+            <p>
+                View your subject-wise marks,
+                total marks and percentage.
+            </p>
+
+            <div class="open-text">
+                View Results →
+            </div>
+
+        </a>
+
+
+
+        <!-- PROGRESS -->
+
+        <a href="{% url 'student_progress' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                📈
+            </div>
+
+            <h3>
+                My Progress
+            </h3>
+
+            <p>
+                Track your academic progress
+                and overall performance.
+            </p>
+
+            <div class="open-text">
+                View Progress →
+            </div>
+
+        </a>
+
+
+
+        <!-- FEES -->
+
+        <a href="{% url 'student_fees' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                💳
+            </div>
+
+            <h3>
+                My Fees
+            </h3>
+
+            <p>
+                Check your fee details,
+                payment status and pending fees.
+            </p>
+
+            <div class="open-text">
+                View Fees →
+            </div>
+
+        </a>
+
+
+
+        <!-- STUDY MATERIAL -->
+
+        <a href="{% url 'student_materials' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                📚
+            </div>
+
+            <h3>
+                Study Materials
+            </h3>
+
+            <p>
+                Access study materials added
+                by your school administrator.
+            </p>
+
+            <div class="open-text">
+                Open Materials →
+            </div>
+
+        </a>
+
+
+
+        <!-- ACHIEVEMENTS -->
+
+        <a href="{% url 'student_achievements' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                🏆
+            </div>
+
+            <h3>
+                My Achievements
+            </h3>
+
+            <p>
+                View achievements and
+                accomplishments recorded by the school.
+            </p>
+
+            <div class="open-text">
+                View Achievements →
+            </div>
+
+        </a>
+
+
+    </div>
+
+
+
+   
+
+
+
+
+
+
+</body>
+
+</html>

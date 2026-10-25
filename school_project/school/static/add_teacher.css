@@ -1,0 +1,476 @@
+/* ================================
+   ADD TEACHER PAGE
+================================ */
+
+.teacher-page {
+    min-height: calc(100vh - 75px);
+    padding: 45px 20px;
+    background: linear-gradient(
+        135deg,
+        #f4f8fc,
+        #eef4fa
+    );
+    font-family: Constantia, "Times New Roman", Georgia, serif;
+}
+
+
+/* MAIN CARD */
+
+.teacher-card {
+    max-width: 1120px;
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 370px 1fr;
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 12px 35px rgba(23, 43, 77, 0.14);
+}
+
+
+/* ================================
+   LEFT INFORMATION PANEL
+================================ */
+
+.teacher-info {
+    background: linear-gradient(
+        180deg,
+        #edf6ff,
+        #f8fbff
+    );
+
+    border-right: 1px solid #e1eaf4;
+
+    min-height: 570px;
+
+    position: relative;
+}
+
+
+/* HEADER */
+
+.info-header {
+    background: linear-gradient(
+        135deg,
+        #244f83,
+        #173b68
+    );
+
+    padding: 18px 20px;
+
+    text-align: center;
+}
+
+.info-header h1 {
+    color: white;
+
+    font-size: 29px;
+
+    margin: 0;
+
+    font-weight: 700;
+}
+
+
+/* AVATAR */
+
+.teacher-avatar {
+    width: 100px;
+    height: 100px;
+
+    margin: 28px auto 8px;
+
+    border-radius: 50%;
+
+    background: #dcecff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 54px;
+
+    border: 5px solid #ffffff;
+
+    box-shadow:
+        0 5px 18px rgba(23, 61, 104, 0.16);
+}
+
+
+.avatar-line {
+    text-align: center;
+
+    color: #245895;
+
+    font-size: 16px;
+
+    margin-bottom: 12px;
+}
+
+
+.info-text {
+    text-align: center;
+
+    color: #536b84;
+
+    font-size: 16px;
+
+    line-height: 1.5;
+
+    padding: 0 35px;
+
+    margin-bottom: 25px;
+}
+
+
+/* INFORMATION ITEMS */
+
+.info-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 10px 35px;
+}
+
+
+.info-icon {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    border: 1px solid #c9def6;
+
+    background: #f7fbff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+
+    flex-shrink: 0;
+}
+
+
+.info-item strong {
+    display: block;
+
+    color: #173b68;
+
+    font-size: 16px;
+
+    margin-bottom: 2px;
+}
+
+
+.info-item span {
+    display: block;
+
+    color: #71839a;
+
+    font-size: 13px;
+}
+
+
+/* FOOTER TEXT */
+
+.future-text {
+    position: absolute;
+
+    bottom: 24px;
+
+    left: 30px;
+    right: 30px;
+
+    border-top: 1px solid #d8e6f4;
+
+    padding-top: 17px;
+
+    text-align: center;
+
+    color: #2a5d99;
+
+    font-size: 14px;
+
+    font-style: italic;
+}
+
+
+/* ================================
+   RIGHT FORM
+================================ */
+
+.teacher-form {
+    padding: 34px 42px 40px;
+}
+
+
+.teacher-form h2 {
+    margin: 0;
+
+    color: #173b68;
+
+    font-size: 28px;
+
+    font-weight: 700;
+}
+
+
+.form-line {
+    width: 100%;
+
+    height: 2px;
+
+    background: #dbe8f5;
+
+    margin: 15px 0 22px;
+}
+
+
+/* FORM GROUP */
+
+.form-group {
+    margin-bottom: 19px;
+}
+
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #24384f;
+
+    font-size: 16px;
+
+    font-weight: 700;
+}
+
+
+.form-group label span {
+    color: #e53935;
+}
+
+
+/* INPUTS */
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+
+    height: 43px;
+
+    padding: 10px 13px;
+
+    border: 1px solid #cbd9e8;
+
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #24384f;
+
+    font-family: Constantia,
+                 "Times New Roman",
+                 Georgia,
+                 serif;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: all 0.2s ease;
+
+    box-sizing: border-box;
+}
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #2475d6;
+
+    box-shadow:
+        0 0 0 3px rgba(36, 117, 214, 0.10);
+}
+
+
+/* PLACEHOLDER */
+
+.form-group input::placeholder {
+    color: #9aaabd;
+}
+
+
+/* ERROR */
+
+.error {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #d93025;
+
+    font-size: 13px;
+}
+
+
+.form-error {
+    background: #fff0f0;
+
+    border: 1px solid #f1b7b7;
+
+    color: #b42318;
+
+    padding: 10px 14px;
+
+    border-radius: 7px;
+
+    margin-bottom: 18px;
+}
+
+
+/* ================================
+   BUTTONS
+================================ */
+
+.button-area {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 28px;
+}
+
+
+.save-btn,
+.cancel-btn {
+    height: 43px;
+
+    padding: 0 28px;
+
+    border-radius: 7px;
+
+    border: none;
+
+    font-family: Constantia,
+                 "Times New Roman",
+                 Georgia,
+                 serif;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    transition: all 0.2s ease;
+}
+
+
+/* SAVE */
+
+.save-btn {
+    background: #087cf5;
+
+    color: white;
+}
+
+
+.save-btn:hover {
+    background: #0567d1;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 12px rgba(8, 124, 245, 0.25);
+}
+
+
+/* CANCEL */
+
+.cancel-btn {
+    background: #6c757d;
+
+    color: white;
+}
+
+
+.cancel-btn:hover {
+    background: #565e64;
+
+    color: white;
+
+    transform: translateY(-1px);
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 900px) {
+
+    .teacher-card {
+        grid-template-columns: 1fr;
+    }
+
+    .teacher-info {
+        min-height: auto;
+
+        padding-bottom: 80px;
+
+        border-right: none;
+
+        border-bottom: 1px solid #e1eaf4;
+    }
+
+    .future-text {
+        position: absolute;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .teacher-page {
+        padding: 20px 10px;
+    }
+
+    .teacher-form {
+        padding: 25px 20px 30px;
+    }
+
+    .info-item {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    .button-area {
+        flex-direction: column;
+    }
+
+    .save-btn,
+    .cancel-btn {
+        width: 100%;
+    }
+}

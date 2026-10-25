@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Teacher{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'add_teacher.css' %}">
+
+<div class="teacher-page">
+
+    <div class="teacher-card">
+
+        <!-- LEFT SIDE -->
+        <div class="teacher-info">
+
+            <div class="info-header">
+                <h1>Add Teacher</h1>
+            </div>
+
+            <div class="teacher-avatar">
+                👨‍🏫
+            </div>
+
+            <div class="avatar-line">
+                ─── ● ───
+            </div>
+
+            <p class="info-text">
+                Fill in the details to add a new
+                teacher to the system.
+            </p>
+
+            <div class="info-item">
+                <div class="info-icon">👤</div>
+
+                <div>
+                    <strong>Name</strong>
+                    <span>Full name of the teacher</span>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">✉</div>
+
+                <div>
+                    <strong>Email</strong>
+                    <span>Contact email (optional)</span>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">☎</div>
+
+                <div>
+                    <strong>Phone</strong>
+                    <span>Contact number</span>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon">📚</div>
+
+                <div>
+                    <strong>Subject</strong>
+                    <span>Subject they teach</span>
+                </div>
+            </div>
+
+        
+            
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+        <div class="teacher-form">
+
+            <h2>Teacher Details</h2>
+
+            <div class="form-line"></div>
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                    <div class="form-error">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+
+                <!-- NAME -->
+                <div class="form-group">
+
+                    <label for="{{ form.name.id_for_label }}">
+                        Name <span>*</span>
+                    </label>
+
+                    {{ form.name }}
+
+                    {% for error in form.name.errors %}
+                        <small class="error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="form-group">
+
+                    <label for="{{ form.email.id_for_label }}">
+                        Email
+                    </label>
+
+                    {{ form.email }}
+
+                    {% for error in form.email.errors %}
+                        <small class="error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- PHONE -->
+                <div class="form-group">
+
+                    <label for="{{ form.phone.id_for_label }}">
+                        Phone <span>*</span>
+                    </label>
+
+                    {{ form.phone }}
+
+                    {% for error in form.phone.errors %}
+                        <small class="error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- SUBJECT -->
+                <div class="form-group">
+
+                    <label for="{{ form.subject.id_for_label }}">
+                        Subject <span>*</span>
+                    </label>
+
+                    {{ form.subject }}
+
+                    {% for error in form.subject.errors %}
+                        <small class="error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+
+                <!-- BUTTONS -->
+                <div class="button-area">
+
+                    <button type="submit" class="save-btn">
+                        💾 &nbsp; Save
+                    </button>
+
+                    <a href="{% url 'teachers' %}" class="cancel-btn">
+                        ← &nbsp; Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

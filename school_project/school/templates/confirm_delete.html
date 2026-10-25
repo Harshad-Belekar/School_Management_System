@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Student | School IMS{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body p-5 text-center">
+
+                    <div style="
+                        width:80px;
+                        height:80px;
+                        margin:auto;
+                        border-radius:50%;
+                        background:#ffe5e5;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        font-size:40px;
+                    ">
+                        🗑️
+                    </div>
+
+                    <h2 class="fw-bold mt-4">
+                        Confirm Delete
+                    </h2>
+
+                    <p class="text-muted mt-3">
+                        Are you sure you want to delete
+                        <strong class="text-danger">
+                            {{ student.name }}
+                        </strong>
+                        ?
+                    </p>
+
+                    <p class="text-muted">
+                        This action cannot be undone.
+                    </p>
+
+                    <form method="post" class="mt-4">
+
+                        {% csrf_token %}
+
+                        <button type="submit"
+                                class="btn btn-danger px-4 me-2">
+                            🗑️ Yes, Delete
+                        </button>
+
+                        <a href="{% url 'students' %}"
+                           class="btn btn-secondary px-4">
+                            Cancel
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

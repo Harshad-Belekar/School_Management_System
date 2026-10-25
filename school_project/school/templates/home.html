@@ -1,0 +1,641 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Home | School IMS</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: Constantia, "Times New Roman", Georgia, serif;
+            background: #f4f7fb;
+        }
+
+
+        /* ================= HOME BACKGROUND ================= */
+
+        .home-page {
+
+            min-height: 100vh;
+
+            padding: 55px 20px 80px;
+
+            background-image:
+                linear-gradient(
+                    rgba(23, 43, 77, 0.70),
+                    rgba(23, 43, 77, 0.70)
+                ),
+                url("{% static 'home.png' %}");
+
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+
+        /* ================= TOP WHITE BOX ================= */
+
+        .home-box {
+
+            max-width: 1000px;
+
+            margin: 0 auto;
+
+            background: rgba(255, 255, 255, 0.96);
+
+            border-radius: 22px;
+
+            padding: 42px 45px;
+
+            text-align: center;
+
+            box-shadow:
+                0 20px 45px rgba(0,0,0,0.25);
+        }
+
+
+        /* ================= SCHOOL BADGE ================= */
+
+        .school-badge {
+
+            display: inline-block;
+
+            background: #172b4d;
+
+            color: white;
+
+            padding: 9px 20px;
+
+            border-radius: 30px;
+
+            font-weight: bold;
+
+            margin-bottom: 18px;
+
+            font-size: 15px;
+        }
+
+
+        /* ================= HEADING ================= */
+
+        .home-box h1 {
+
+            color: #172b4d;
+
+            font-size: 36px;
+
+            margin: 5px 0 12px;
+
+            font-weight: 700;
+        }
+
+
+        .home-description {
+
+            color: #53657d;
+
+            font-size: 16px;
+
+            margin-bottom: 35px;
+        }
+
+
+        /* ================= ACCESS CARDS ================= */
+
+        .access-cards {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .access-card {
+
+            text-decoration: none;
+
+            color: #172b4d;
+
+            background: #f8fafc;
+
+            border: 1px solid #e1e7ef;
+
+            border-radius: 16px;
+
+            padding: 25px 18px 22px;
+
+            box-shadow:
+                0 10px 22px rgba(23,43,77,0.10);
+
+            transition: 0.3s;
+        }
+
+
+        .access-card:hover {
+
+            transform: translateY(-6px);
+
+            box-shadow:
+                0 16px 30px rgba(23,43,77,0.18);
+        }
+
+
+        .access-icon {
+
+            width: 52px;
+            height: 52px;
+
+            margin: 0 auto 13px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #edf4ff;
+
+            border-radius: 50%;
+
+            font-size: 27px;
+        }
+
+
+        .access-card h3 {
+
+            font-size: 19px;
+
+            margin: 8px 0;
+        }
+
+
+        .access-card p {
+
+            font-size: 13px;
+
+            color: #64748b;
+
+            min-height: 38px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .orange-btn {
+
+            display: block;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffb51b,
+                    #ff7900
+                );
+
+            color: white;
+
+            padding: 10px;
+
+            border-radius: 7px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        /* ================= FEATURES ================= */
+
+        .features-section {
+
+            max-width: 1100px;
+
+            margin: 38px auto 0;
+
+            text-align: center;
+        }
+
+
+        .features-title {
+
+            display: inline-block;
+
+            background:
+                rgba(255,255,255,0.95);
+
+            padding: 10px 28px;
+
+            border-radius: 30px;
+
+            color: #172b4d;
+
+            font-size: 25px;
+
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 8px 18px rgba(0,0,0,0.15);
+        }
+
+
+        .features-title span {
+
+            color: #ff8a00;
+        }
+
+
+        .feature-cards {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+
+        .feature-card {
+
+            background:
+                rgba(255,255,255,0.96);
+
+            border-radius: 16px;
+
+            padding: 25px 20px;
+
+            min-height: 155px;
+
+            box-shadow:
+                0 12px 25px rgba(0,0,0,0.18);
+
+            border:
+                1px solid rgba(255,255,255,0.8);
+
+            transition: 0.3s;
+        }
+
+
+        .feature-card:hover {
+
+            transform: translateY(-7px);
+
+            box-shadow:
+                0 18px 32px rgba(0,0,0,0.25);
+        }
+
+
+        .feature-icon {
+
+            width: 52px;
+            height: 52px;
+
+            margin: 0 auto 12px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #fff3e0;
+
+            border-radius: 50%;
+
+            font-size: 27px;
+        }
+
+
+        .feature-card h3 {
+
+            color: #172b4d;
+
+            font-size: 18px;
+
+            margin: 8px 0;
+        }
+
+
+        .feature-card p {
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            margin: 0;
+
+            line-height: 1.5;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 800px) {
+
+            .home-page {
+
+                padding:
+                    30px 15px 50px;
+            }
+
+            .home-box {
+
+                padding:
+                    30px 20px;
+            }
+
+            .access-cards,
+            .feature-cards {
+
+                grid-template-columns: 1fr;
+            }
+
+            .home-box h1 {
+
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="home-page">
+
+
+    <!-- ================= MAIN HOME BOX ================= -->
+
+    <div class="home-box">
+
+
+       
+
+        <h1>
+            School Management System
+        </h1>
+
+
+        <p class="home-description">
+
+            Manage students, teachers, classes, attendance,
+            fees and examination results in one place.
+
+        </p>
+
+
+        <!-- ================= ACCESS CARDS ================= -->
+
+        <div class="access-cards">
+
+
+            <!-- ADMIN LOGIN -->
+
+            <a
+                href="{% url 'login' %}"
+                class="access-card">
+
+                <div class="access-icon">
+                    👨‍💼
+                </div>
+
+                <h3>
+                    Admin Login
+                </h3>
+
+                <p>
+                    Manage the complete school system
+                </p>
+
+                <span class="orange-btn">
+                    Login
+                </span>
+
+            </a>
+
+
+            <!-- STUDENT REGISTER -->
+
+            <a
+                href="{% url 'student_register' %}"
+                class="access-card">
+
+                <div class="access-icon">
+                    📝
+                </div>
+
+                <h3>
+                    Student Register
+                </h3>
+
+                <p>
+                    Create your student account
+                </p>
+
+                <span class="orange-btn">
+                    Register
+                </span>
+
+            </a>
+
+
+            <!-- STUDENT LOGIN -->
+
+            <a
+                href="{% url 'student_login' %}"
+                class="access-card">
+
+                <div class="access-icon">
+                    🎓
+                </div>
+
+                <h3>
+                    Student Login
+                </h3>
+
+                <p>
+                    View your school information
+                </p>
+
+                <span class="orange-btn">
+                    Login
+                </span>
+
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================= FEATURES ================= -->
+
+    <div class="features-section">
+
+
+        <div class="features-title">
+
+            Our <span>Features</span>
+
+        </div>
+
+
+        <div class="feature-cards">
+
+
+            <!-- STUDENT -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    👨‍🎓
+                </div>
+
+                <h3>
+                    Student Management
+                </h3>
+
+                <p>
+                    Manage student profiles, classes,
+                    roll numbers and records.
+                </p>
+
+            </div>
+
+
+            <!-- TEACHER -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    👨‍🏫
+                </div>
+
+                <h3>
+                    Teacher Management
+                </h3>
+
+                <p>
+                    Manage teachers, subjects
+                    and contact information.
+                </p>
+
+            </div>
+
+
+            <!-- CLASS -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    🏫
+                </div>
+
+                <h3>
+                    Class Management
+                </h3>
+
+                <p>
+                    Create and manage classes
+                    and sections.
+                </p>
+
+            </div>
+
+
+            <!-- ATTENDANCE -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📅
+                </div>
+
+                <h3>
+                    Attendance
+                </h3>
+
+                <p>
+                    Track daily student attendance
+                    and presence records.
+                </p>
+
+            </div>
+
+
+            <!-- FEES -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    💰
+                </div>
+
+                <h3>
+                    Fee Management
+                </h3>
+
+                <p>
+                    Manage student fees,
+                    payments and pending fees.
+                </p>
+
+            </div>
+
+
+            <!-- RESULTS -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+                    📊
+                </div>
+
+                <h3>
+                    Results & Performance
+                </h3>
+
+                <p>
+                    Manage examination results
+                    and student performance.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

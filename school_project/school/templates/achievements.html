@@ -1,0 +1,510 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Achievements | School IMS
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    /* ================= PAGE ================= */
+
+    .achievement-page {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+
+    /* ================= HEADER ================= */
+
+    .achievement-header {
+        background: linear-gradient(
+            135deg,
+            #172b4d,
+            #243f68
+        );
+
+        color: white;
+        padding: 25px 30px;
+        border-radius: 16px;
+        margin-bottom: 25px;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        box-shadow: 0 8px 25px rgba(23,43,77,.15);
+    }
+
+    .achievement-header h2 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .achievement-header p {
+        margin: 6px 0 0;
+        color: rgba(255,255,255,.75);
+        font-size: 14px;
+    }
+
+
+    /* ================= ADD BUTTON ================= */
+
+    .add-achievement-btn {
+        text-decoration: none;
+
+        background: linear-gradient(
+            135deg,
+            #ffb51b,
+            #ff7900
+        );
+
+        color: white;
+
+        padding: 11px 20px;
+
+        border-radius: 9px;
+
+        font-weight: 700;
+
+        transition: .2s;
+
+        white-space: nowrap;
+    }
+
+    .add-achievement-btn:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(255,121,0,.25);
+    }
+
+
+    /* ================= TABLE CARD ================= */
+
+    .achievement-card {
+        background: white;
+
+        border-radius: 16px;
+
+        box-shadow:
+            0 8px 30px rgba(23,43,77,.08);
+
+        overflow: hidden;
+    }
+
+
+    /* ================= TABLE ================= */
+
+    .achievement-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0;
+    }
+
+    .achievement-table thead {
+        background: #172b4d;
+        color: white;
+    }
+
+    .achievement-table th {
+        padding: 16px 18px;
+
+        font-size: 14px;
+
+        font-weight: 700;
+
+        text-align: left;
+
+        white-space: nowrap;
+    }
+
+    .achievement-table td {
+        padding: 16px 18px;
+
+        border-bottom: 1px solid #edf0f5;
+
+        font-size: 14px;
+
+        vertical-align: middle;
+    }
+
+    .achievement-table tbody tr {
+        transition: .2s;
+    }
+
+    .achievement-table tbody tr:hover {
+        background: #fffaf0;
+    }
+
+    .achievement-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+
+    /* ================= STUDENT ================= */
+
+    .student-name {
+        font-weight: 700;
+        color: #172b4d;
+        font-size: 15px;
+    }
+
+    .student-roll {
+        color: #7b8494;
+        font-size: 12px;
+        margin-top: 3px;
+    }
+
+
+    /* ================= CLASS ================= */
+
+    .class-badge {
+        display: inline-block;
+
+        background: #eef3fb;
+
+        color: #172b4d;
+
+        padding: 6px 10px;
+
+        border-radius: 7px;
+
+        font-size: 12px;
+
+        font-weight: 700;
+    }
+
+
+    /* ================= ACHIEVEMENT ================= */
+
+    .achievement-title {
+        color: #172b4d;
+
+        font-size: 15px;
+
+        font-weight: 700;
+
+        margin-bottom: 4px;
+    }
+
+    .achievement-description {
+        color: #6b7280;
+
+        font-size: 13px;
+
+        max-width: 350px;
+    }
+
+
+    /* ================= DATE ================= */
+
+    .achievement-date {
+        color: #6b7280;
+
+        font-size: 13px;
+
+        font-weight: 600;
+    }
+
+
+    /* ================= DELETE ================= */
+
+    .delete-btn {
+        display: inline-block;
+
+        text-decoration: none;
+
+        background: #fff0f0;
+
+        color: #dc3545;
+
+        padding: 7px 12px;
+
+        border-radius: 7px;
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+        transition: .2s;
+    }
+
+    .delete-btn:hover {
+        background: #dc3545;
+        color: white;
+    }
+
+
+    /* ================= EMPTY ================= */
+
+    .empty-state {
+        text-align: center;
+
+        padding: 70px 20px;
+    }
+
+    .empty-icon {
+        font-size: 55px;
+        margin-bottom: 15px;
+    }
+
+    .empty-state h3 {
+        color: #172b4d;
+
+        font-size: 22px;
+
+        margin-bottom: 8px;
+    }
+
+    .empty-state p {
+        color: #7b8494;
+
+        font-size: 14px;
+
+        margin-bottom: 22px;
+    }
+
+
+    /* ================= MOBILE ================= */
+
+    @media (max-width: 768px) {
+
+        .achievement-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 18px;
+        }
+
+        .add-achievement-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .achievement-card {
+            overflow-x: auto;
+        }
+
+        .achievement-table {
+            min-width: 900px;
+        }
+
+    }
+
+</style>
+
+
+<div class="achievement-page">
+
+
+    <!-- ================= HEADER ================= -->
+
+    <div class="achievement-header">
+
+        <div>
+
+            <h2>
+                🏆 Achievements
+            </h2>
+
+            <p>
+                Manage and track student achievements
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'achievement_add' %}"
+            class="add-achievement-btn">
+
+            + Add Achievement
+
+        </a>
+
+    </div>
+
+
+    <!-- ================= ACHIEVEMENTS ================= -->
+
+    <div class="achievement-card">
+
+
+        {% if achievements %}
+
+            <table class="achievement-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Student
+                        </th>
+
+                        <th>
+                            Class
+                        </th>
+
+                        <th>
+                            Achievement
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for achievement in achievements %}
+
+                        <tr>
+
+
+                            <!-- STUDENT -->
+
+                            <td>
+
+                                <div class="student-name">
+
+                                    {{ achievement.student.name }}
+
+                                </div>
+
+                                <div class="student-roll">
+
+                                    Roll No:
+                                    {{ achievement.student.roll_no }}
+
+                                </div>
+
+                            </td>
+
+
+                            <!-- CLASS -->
+
+                            <td>
+
+                                <span class="class-badge">
+
+                                    {{ achievement.student.school_class }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- ACHIEVEMENT -->
+
+                            <td>
+
+                                <div class="achievement-title">
+
+                                    🏆 {{ achievement.title }}
+
+                                </div>
+
+
+                                {% if achievement.description %}
+
+                                    <div class="achievement-description">
+
+                                        {{ achievement.description }}
+
+                                    </div>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <!-- DATE -->
+
+                            <td>
+
+                                <span class="achievement-date">
+
+                                    {{ achievement.date|date:"d M Y" }}
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- DELETE -->
+
+                            <td>
+
+                                <a
+                                    href="{% url 'achievement_delete' achievement.id %}"
+                                    class="delete-btn"
+                                    onclick="return confirm('Are you sure you want to delete this achievement?');">
+
+                                    🗑 Delete
+
+                                </a>
+
+                            </td>
+
+
+                        </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+
+        {% else %}
+
+
+            <!-- EMPTY STATE -->
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    🏆
+                </div>
+
+                <h3>
+                    No Achievements Yet
+                </h3>
+
+                <p>
+                    Add your first student achievement to get started.
+                </p>
+
+                <a
+                    href="{% url 'achievement_add' %}"
+                    class="add-achievement-btn">
+
+                    + Add Achievement
+
+                </a>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

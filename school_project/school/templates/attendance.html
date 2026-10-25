@@ -1,0 +1,564 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Attendance | School IMS{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+<style>
+
+    .attendance-page {
+        max-width: 1450px;
+        margin: 0 auto;
+        padding: 25px 10px 40px;
+    }
+
+    /* HEADER */
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        gap: 20px;
+    }
+
+    .page-title h2 {
+        margin: 0;
+        color: #172b4d;
+        font-family: Constantia, "Times New Roman", serif;
+        font-weight: 700;
+    }
+
+    .page-title p {
+        margin: 5px 0 0;
+        color: #777;
+    }
+
+    /* ORANGE ADD BUTTON */
+
+    .add-btn {
+        display: inline-block;
+        text-decoration: none;
+        background: linear-gradient(135deg, #ffb51b, #ff7900);
+        color: white;
+        padding: 11px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 5px 15px rgba(255, 121, 0, .25);
+        transition: .2s ease;
+    }
+
+    .add-btn:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(255, 121, 0, .30);
+    }
+
+    /* FORM CARD */
+
+    .attendance-form-card {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 8px 25px rgba(23, 43, 77, .08);
+        border: 1px solid #edf0f5;
+    }
+
+    .form-title {
+        color: #172b4d;
+        font-family: Constantia, "Times New Roman", serif;
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    /* FORM */
+
+    .attendance-form {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1fr 180px;
+        gap: 15px;
+        align-items: end;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 7px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #344563;
+    }
+
+    .form-group select,
+    .form-group input {
+        width: 100%;
+        height: 45px;
+        border: 1px solid #dfe3e8;
+        border-radius: 9px;
+        padding: 0 12px;
+        font-family: Constantia, "Times New Roman", Georgia, serif;
+        color: #172b4d;
+        background: white;
+        outline: none;
+    }
+
+    .form-group select:focus,
+    .form-group input:focus {
+        border-color: #ff9800;
+        box-shadow: 0 0 0 3px rgba(255, 152, 0, .12);
+    }
+
+    /* SAVE BUTTON */
+
+    .save-btn {
+        height: 45px;
+        border: none;
+        border-radius: 9px;
+        background: linear-gradient(135deg, #ffb51b, #ff7900);
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        transition: .2s ease;
+    }
+
+    .save-btn:hover {
+        opacity: .92;
+        transform: translateY(-1px);
+    }
+
+    /* TABLE CARD */
+
+    .records-card {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(23, 43, 77, .08);
+        border: 1px solid #edf0f5;
+        overflow-x: auto;
+    }
+
+    .table-title {
+        color: #172b4d;
+        font-family: Constantia, "Times New Roman", serif;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    /* TABLE */
+
+    .attendance-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .attendance-table th {
+        background: #172b4d;
+        color: white;
+        padding: 14px 12px;
+        text-align: left;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .attendance-table td {
+        padding: 14px 12px;
+        border-bottom: 1px solid #edf0f5;
+        font-size: 13px;
+        color: #344563;
+        vertical-align: middle;
+    }
+
+    .attendance-table tbody tr:hover {
+        background: #fffaf2;
+    }
+
+    /* STUDENT */
+
+    .student-name {
+        font-weight: 700;
+        color: #172b4d;
+    }
+
+    /* ROLL */
+
+    .roll-badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        background: #eef3f8;
+        color: #285486;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    /* CLASS */
+
+    .class-badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        background: #fff1d6;
+        color: #e87500;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    /* STATUS */
+
+    .status-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .present {
+        background: #e7f7ee;
+        color: #18864b;
+    }
+
+    .absent {
+        background: #fde8e8;
+        color: #d93025;
+    }
+
+    /* EMPTY */
+
+    .empty-row {
+        text-align: center;
+        padding: 40px !important;
+        color: #888 !important;
+    }
+
+    /* RESPONSIVE */
+
+    @media(max-width: 1000px) {
+
+        .attendance-form {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .save-btn {
+            width: 100%;
+        }
+    }
+
+    @media(max-width: 600px) {
+
+        .attendance-page {
+            padding: 15px;
+        }
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .add-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .attendance-form {
+            grid-template-columns: 1fr;
+        }
+
+        .records-card {
+            padding: 16px;
+        }
+
+        .attendance-table {
+            min-width: 750px;
+        }
+    }
+
+</style>
+
+
+<div class="attendance-page">
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <div class="page-title">
+
+            <h2>📅 Attendance</h2>
+
+            <p>
+                Manage student attendance records.
+            </p>
+
+        </div>
+
+
+        <a href="#attendance-form" class="add-btn">
+
+            + Add Attendance
+
+        </a>
+
+    </div>
+
+
+    <!-- ADD ATTENDANCE -->
+
+    <div class="attendance-form-card" id="attendance-form">
+
+        <div class="form-title">
+
+            Add New Attendance
+
+        </div>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <div class="attendance-form">
+
+                <!-- STUDENT -->
+
+                <div class="form-group">
+
+                    <label>
+                        Student
+                    </label>
+
+                    <select
+                        name="student"
+                        required>
+
+                        <option value="">
+                            Select Student
+                        </option>
+
+
+                        {% for student in students %}
+
+                        <option value="{{ student.id }}">
+
+                            {{ student.roll_no }} -
+                            {{ student.name }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- DATE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="date"
+                        value="{{ today|date:'Y-m-d' }}"
+                        required>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="form-group">
+
+                    <label>
+                        Status
+                    </label>
+
+                    <select
+                        name="status"
+                        required>
+
+                        <option value="">
+                            Select Status
+                        </option>
+
+                        <option value="Present">
+                            Present
+                        </option>
+
+                        <option value="Absent">
+                            Absent
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SAVE -->
+
+                <button
+                    type="submit"
+                    class="save-btn">
+
+                    Save Attendance
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- ATTENDANCE RECORDS -->
+
+    <div class="records-card">
+
+        <h5 class="table-title">
+
+            📋 Attendance Records
+
+        </h5>
+
+
+        <div class="table-responsive">
+
+            <table class="attendance-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Student</th>
+
+                        <th>Roll No.</th>
+
+                        <th>Class</th>
+
+                        <th>Date</th>
+
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for record in records %}
+
+                    <tr>
+
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+
+
+                        <td>
+
+                            <span class="student-name">
+
+                                {{ record.student.name }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="roll-badge">
+
+                                {{ record.student.roll_no }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="class-badge">
+
+                                {{ record.student.school_class }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            {{ record.date|date:"d-m-Y" }}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if record.status == "Present" %}
+
+                            <span class="status-badge present">
+
+                                ✓ Present
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="status-badge absent">
+
+                                ✕ Absent
+
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="empty-row">
+
+                            📭 No attendance records found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

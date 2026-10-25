@@ -1,0 +1,425 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Results | School IMS{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+<style>
+    .results-page {
+        max-width: 1450px;
+        margin: 0 auto;
+        padding: 25px 10px 40px;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        gap: 20px;
+    }
+
+    .page-title h2 {
+        margin: 0;
+        color: #172b4d;
+        font-family: Constantia, "Times New Roman", serif;
+        font-weight: 700;
+    }
+
+    .page-title p {
+        margin: 5px 0 0;
+        color: #777;
+    }
+
+    .add-btn {
+        text-decoration: none;
+        background: linear-gradient(135deg, #ffb51b, #ff7900);
+        color: white;
+        padding: 11px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+        box-shadow: 0 5px 15px rgba(255, 121, 0, .25);
+    }
+
+    .add-btn:hover {
+        color: white;
+        transform: translateY(-1px);
+    }
+
+    .data-card {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 8px 25px rgba(23, 43, 77, .08);
+        border: 1px solid #edf0f5;
+    }
+
+    .form-title {
+        color: #172b4d;
+        font-family: Constantia, "Times New Roman", serif;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #344563;
+        margin-bottom: 7px;
+    }
+
+    .school-input,
+    .school-select {
+        width: 100%;
+        height: 45px;
+        border: 1px solid #dfe3e8;
+        border-radius: 9px;
+        padding: 8px 12px;
+        background: #fff;
+        outline: none;
+        font-family: Constantia, "Times New Roman", serif;
+    }
+
+    .school-input:focus,
+    .school-select:focus {
+        border-color: #ff9800;
+        box-shadow: 0 0 0 3px rgba(255, 152, 0, .12);
+    }
+
+    .save-btn {
+        height: 45px;
+        border: none;
+        border-radius: 9px;
+        background: linear-gradient(135deg, #ffb51b, #ff7900);
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .save-btn:hover {
+        opacity: .92;
+    }
+
+    .table-title {
+        color: #172b4d;
+        font-family: Constantia, "Times New Roman", serif;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .school-table {
+        width: 100%;
+        border-collapse: collapse;
+        overflow: hidden;
+    }
+
+    .school-table thead th {
+        background: #172b4d;
+        color: white;
+        padding: 14px 12px;
+        text-align: left;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .school-table tbody td {
+        padding: 14px 12px;
+        border-bottom: 1px solid #edf0f5;
+        color: #344563;
+        vertical-align: middle;
+    }
+
+    .school-table tbody tr:hover {
+        background: #fffaf2;
+    }
+
+    .student-name {
+        color: #172b4d;
+        font-weight: 700;
+    }
+
+    .marks-badge {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        background: #eef3f8;
+        color: #172b4d;
+        font-weight: 700;
+    }
+
+    .percentage-badge {
+        display: inline-block;
+        min-width: 65px;
+        text-align: center;
+        padding: 6px 10px;
+        border-radius: 20px;
+        background: #fff1d6;
+        color: #e87500;
+        font-weight: 700;
+    }
+
+    .empty-row {
+        text-align: center !important;
+        padding: 40px !important;
+        color: #888 !important;
+    }
+
+    @media (max-width: 768px) {
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .add-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .data-card {
+            padding: 16px;
+        }
+
+        .school-table {
+            min-width: 800px;
+        }
+    }
+</style>
+
+
+<div class="results-page">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+
+        <div class="page-title">
+            <h2>📊 Student Results</h2>
+            <p>Manage and record student examination results.</p>
+        </div>
+
+        <a href="#result-form" class="add-btn">
+            + Add Result
+        </a>
+
+    </div>
+
+
+    <!-- ADD RESULT FORM -->
+    <div class="data-card" id="result-form">
+
+        <h5 class="form-title">
+            Add New Result
+        </h5>
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <div class="row g-3">
+
+                <!-- STUDENT -->
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Student
+                    </label>
+
+                    <select
+                        name="student"
+                        class="school-select"
+                        required>
+
+                        <option value="">
+                            Select Student
+                        </option>
+
+                        {% for student in students %}
+
+                        <option value="{{ student.id }}">
+                            {{ student.name }} - {{ student.school_class }}
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- SUBJECT -->
+                <div class="col-md-3">
+
+                    <label class="form-label">
+                        Subject
+                    </label>
+
+                    <input
+                        type="text"
+                        name="subject"
+                        class="school-input"
+                        placeholder="Enter subject"
+                        required>
+
+                </div>
+
+
+                <!-- MARKS -->
+                <div class="col-md-2">
+
+                    <label class="form-label">
+                        Marks
+                    </label>
+
+                    <input
+                        type="number"
+                        name="marks"
+                        class="school-input"
+                        min="0"
+                        placeholder="Marks"
+                        required>
+
+                </div>
+
+
+                <!-- TOTAL MARKS -->
+                <div class="col-md-2">
+
+                    <label class="form-label">
+                        Total Marks
+                    </label>
+
+                    <input
+                        type="number"
+                        name="total_marks"
+                        class="school-input"
+                        min="1"
+                        value="100"
+                        required>
+
+                </div>
+
+
+                <!-- SAVE -->
+                <div class="col-md-2 d-flex align-items-end">
+
+                    <button
+                        type="submit"
+                        class="save-btn w-100">
+
+                        Save Result
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- RESULTS TABLE -->
+    <div class="data-card">
+
+        <h5 class="table-title">
+            📋 Result Records
+        </h5>
+
+        <div class="table-responsive">
+
+            <table class="school-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+                        <th>Student</th>
+                        <th>Class</th>
+                        <th>Subject</th>
+                        <th>Marks</th>
+                        <th>Total</th>
+                        <th>Percentage</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for result in results %}
+
+                    <tr>
+
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+
+                        <td>
+                            <span class="student-name">
+                                {{ result.student.name }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ result.student.school_class }}
+                        </td>
+
+                        <td>
+                            {{ result.subject }}
+                        </td>
+
+                        <td>
+                            <span class="marks-badge">
+                                {{ result.marks }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ result.total_marks }}
+                        </td>
+
+                        <td>
+
+                            <span class="percentage-badge">
+
+                                {% widthratio result.marks result.total_marks 100 %}%
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="7"
+                            class="empty-row">
+
+                            📭 No result records found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

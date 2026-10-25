@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Student{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'add_student.css' %}">
+
+<div class="student-page">
+
+    <div class="student-card">
+
+        <!-- LEFT SIDE -->
+        <div class="student-info">
+
+            <div class="info-header">
+                <h1>Add Student</h1>
+            </div>
+
+            <div class="student-avatar">
+                🎓
+            </div>
+
+            <div class="avatar-line">
+                ─── ● ───
+            </div>
+
+            <p class="info-text">
+                Fill in the details to add a new
+                student to the school system.
+            </p>
+
+
+            <div class="info-item">
+
+                <div class="info-icon">👤</div>
+
+                <div>
+                    <strong>Name</strong>
+                    <span>Full name of the student</span>
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-icon">🔢</div>
+
+                <div>
+                    <strong>Roll Number</strong>
+                    <span>Unique student roll number</span>
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-icon">🏫</div>
+
+                <div>
+                    <strong>Class</strong>
+                    <span>Student's assigned class</span>
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-icon">✉</div>
+
+                <div>
+                    <strong>Email</strong>
+                    <span>Student contact email</span>
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-icon">☎</div>
+
+                <div>
+                    <strong>Phone</strong>
+                    <span>Student contact number</span>
+                </div>
+
+            </div>
+
+
+           
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+        <div class="student-form">
+
+            <h2>Student Details</h2>
+
+            <div class="form-line"></div>
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="message-box">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+
+
+                <!-- LOGIN ACCOUNT -->
+
+                <div class="account-title">
+                    Student Login Account
+                </div>
+
+                <div class="account-info">
+                    Create username and password for student login.
+                </div>
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label>
+                        Username <span>*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Enter student username"
+                        value="{{ request.POST.username|default:'' }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label>
+                        Password <span>*</span>
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Enter student password"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- STUDENT FORM FIELDS -->
+
+                {% for field in form %}
+
+                    <div class="form-group">
+
+                        <label for="{{ field.id_for_label }}">
+
+                            {{ field.label }}
+
+                            {% if field.field.required %}
+                                <span>*</span>
+                            {% endif %}
+
+                        </label>
+
+                        {{ field }}
+
+                        {% for error in field.errors %}
+
+                            <small class="error">
+                                {{ error }}
+                            </small>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endfor %}
+
+
+                <!-- BUTTONS -->
+
+                <div class="button-area">
+
+                    <button
+                        type="submit"
+                        class="save-btn">
+                        💾 &nbsp; Save Student
+                    </button>
+
+                    <a
+                        href="{% url 'students' %}"
+                        class="cancel-btn">
+                        ← &nbsp; Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

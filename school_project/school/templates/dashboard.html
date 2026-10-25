@@ -1,0 +1,762 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard | School Management System{% endblock %}
+
+{% block content %}
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Constantia, "Times New Roman", Georgia, serif;
+    color: #172b4d;
+
+    background:
+        linear-gradient(
+            rgba(244,247,251,0.88),
+            rgba(244,247,251,0.88)
+        ),
+        url("{% static 'admin..png' %}");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+
+/* ================= DASHBOARD ================= */
+
+.dashboard-page {
+    padding: 25px;
+    max-width: 1500px;
+    margin: auto;
+    min-height: calc(100vh - 70px);
+}
+
+
+/* ================= WELCOME ================= */
+
+.welcome-box {
+    position: relative;
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        rgba(23,43,77,0.97),
+        rgba(40,84,134,0.95)
+    );
+
+    color: white;
+    border-radius: 18px;
+
+    padding: 27px 32px;
+    margin-bottom: 24px;
+
+    box-shadow: 0 12px 28px rgba(23,43,77,0.20);
+}
+
+.welcome-box::after {
+    content: "🏫";
+
+    position: absolute;
+    right: 35px;
+    top: 8px;
+
+    font-size: 90px;
+    opacity: 0.08;
+}
+
+.welcome-box h1 {
+    margin: 0 0 7px;
+    font-size: 28px;
+}
+
+.welcome-box p {
+    margin: 0;
+    color: #dce8f5;
+    font-size: 14px;
+}
+
+.school-tag {
+    position: absolute;
+    right: 30px;
+    bottom: 20px;
+
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.20);
+
+    padding: 7px 15px;
+    border-radius: 20px;
+
+    font-size: 11px;
+}
+
+
+/* ================= STATISTICS ================= */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    position: relative;
+    overflow: hidden;
+
+    background: rgba(255,255,255,0.96);
+    border-radius: 16px;
+
+    padding: 22px;
+
+    border: 1px solid #e6ebf2;
+
+    box-shadow: 0 8px 20px rgba(23,43,77,0.08);
+
+    transition: 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 28px rgba(23,43,77,0.14);
+}
+
+.stat-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 80px;
+    height: 80px;
+
+    right: -25px;
+    bottom: -25px;
+
+    background: #fff3df;
+    border-radius: 50%;
+    opacity: 0.7;
+}
+
+.stat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff3df;
+    border-radius: 13px;
+
+    font-size: 24px;
+}
+
+.stat-label {
+    margin-top: 15px;
+
+    color: #718096;
+    font-size: 13px;
+}
+
+.stat-number {
+    margin-top: 3px;
+
+    color: #172b4d;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.stat-line {
+    width: 38px;
+    height: 3px;
+
+    background: #ff8a00;
+    border-radius: 5px;
+
+    margin-top: 8px;
+}
+
+
+/* ================= RECENT STUDENTS ================= */
+
+.section-card {
+    background: rgba(255,255,255,0.97);
+
+    border-radius: 17px;
+
+    border: 1px solid #e5eaf1;
+
+    box-shadow: 0 8px 22px rgba(23,43,77,0.08);
+
+    overflow: hidden;
+
+    margin-bottom: 25px;
+}
+
+.section-header {
+    padding: 20px 23px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid #edf1f5;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.section-title-icon {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff3df;
+    border-radius: 10px;
+}
+
+.view-btn {
+    text-decoration: none;
+
+    background: #172b4d;
+    color: white;
+
+    padding: 7px 14px;
+
+    border-radius: 7px;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    transition: 0.3s;
+}
+
+.view-btn:hover {
+    background: #ff8a00;
+    color: white;
+}
+
+
+/* ================= TABLE ================= */
+
+.student-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.student-table th {
+    text-align: left;
+
+    padding: 14px 22px;
+
+    background: #f8fafc;
+
+    color: #718096;
+
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.student-table td {
+    padding: 14px 22px;
+
+    border-top: 1px solid #edf1f5;
+
+    font-size: 13px;
+}
+
+.student-table tr {
+    transition: 0.2s;
+}
+
+.student-table tbody tr:hover {
+    background: #fffaf3;
+}
+
+.student-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-weight: bold;
+}
+
+.student-avatar {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #edf4ff;
+
+    border-radius: 50%;
+
+    font-size: 15px;
+}
+
+.roll-badge {
+    display: inline-block;
+
+    background: #f1f5f9;
+    color: #172b4d;
+
+    padding: 5px 10px;
+
+    border-radius: 15px;
+
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.class-badge {
+    display: inline-block;
+
+    background: #fff1dc;
+    color: #c56b00;
+
+    padding: 6px 11px;
+
+    border-radius: 15px;
+
+    font-size: 11px;
+    font-weight: bold;
+}
+
+
+/* ================= QUICK ACTIONS ================= */
+
+.quick-title {
+    margin-bottom: 14px;
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.quick-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+}
+
+.quick-card {
+    text-decoration: none;
+
+    background: rgba(255,255,255,0.96);
+
+    border: 1px solid #e5eaf1;
+
+    border-radius: 15px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    box-shadow: 0 7px 18px rgba(23,43,77,0.07);
+
+    transition: 0.3s;
+}
+
+.quick-card:hover {
+    transform: translateY(-5px);
+
+    border-color: #ffb45c;
+
+    box-shadow: 0 14px 25px rgba(23,43,77,0.13);
+}
+
+.quick-icon {
+    width: 48px;
+    height: 48px;
+
+    margin: 0 auto 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fff3df;
+
+    border-radius: 13px;
+
+    font-size: 23px;
+}
+
+.quick-card h3 {
+    margin: 5px 0;
+
+    color: #172b4d;
+
+    font-size: 14px;
+}
+
+.quick-card p {
+    margin: 0;
+
+    color: #8a96a5;
+
+    font-size: 11px;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .quick-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+
+    .dashboard-page {
+        padding: 15px;
+    }
+
+    .stats-grid,
+    .quick-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome-box {
+        padding: 22px;
+    }
+
+    .school-tag {
+        display: none;
+    }
+
+    .student-table {
+        min-width: 650px;
+    }
+
+    .section-card {
+        overflow-x: auto;
+    }
+}
+
+</style>
+
+
+<div class="dashboard-page">
+
+
+    <!-- ================= WELCOME ================= -->
+
+    <div class="welcome-box">
+
+        <h1>
+            Welcome, Harshad Belekar 👋
+        </h1>
+
+        <p>
+            Here's what's happening in your school today.
+        </p>
+
+        <div class="school-tag">
+            🏫 School Management System
+        </div>
+
+    </div>
+
+
+    <!-- ================= STATISTICS ================= -->
+
+    <div class="stats-grid">
+
+
+        <!-- STUDENTS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    👨‍🎓
+                </div>
+
+            </div>
+
+            <div class="stat-label">
+                Total Students
+            </div>
+
+            <div class="stat-number">
+                {{ students }}
+            </div>
+
+            <div class="stat-line"></div>
+
+        </div>
+
+
+        <!-- TEACHERS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    👨‍🏫
+                </div>
+
+            </div>
+
+            <div class="stat-label">
+                Total Teachers
+            </div>
+
+            <div class="stat-number">
+                {{ teachers }}
+            </div>
+
+            <div class="stat-line"></div>
+
+        </div>
+
+
+        <!-- CLASSES -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    🏫
+                </div>
+
+            </div>
+
+            <div class="stat-label">
+                Total Classes
+            </div>
+
+            <div class="stat-number">
+                {{ classes }}
+            </div>
+
+            <div class="stat-line"></div>
+
+        </div>
+
+
+        <!-- PRESENT -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    📅
+                </div>
+
+            </div>
+
+            <div class="stat-label">
+                Present Today
+            </div>
+
+            <div class="stat-number">
+                {{ present }}
+            </div>
+
+            <div class="stat-line"></div>
+
+        </div>
+
+
+        <!-- FEES -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    💳
+                </div>
+
+            </div>
+
+            <div class="stat-label">
+                Unpaid Fees
+            </div>
+
+            <div class="stat-number">
+                {{ unpaid }}
+            </div>
+
+            <div class="stat-line"></div>
+
+        </div>
+
+
+        <!-- RESULTS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+                    📊
+                </div>
+
+            </div>
+
+            <div class="stat-label">
+                Total Results
+            </div>
+
+            <div class="stat-number">
+                {{ results }}
+            </div>
+
+            <div class="stat-line"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= RECENT STUDENTS ================= -->
+
+    <div class="section-card">
+
+        <div class="section-header">
+
+            <div class="section-title">
+
+                <div class="section-title-icon">
+                    👨‍🎓
+                </div>
+
+                Recently Added Students
+
+            </div>
+
+            <a
+                href="{% url 'students' %}"
+                class="view-btn"
+            >
+                View All
+            </a>
+
+        </div>
+
+
+        <table class="student-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Student
+                    </th>
+
+                    <th>
+                        Roll No.
+                    </th>
+
+                    <th>
+                        Class
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for student in recent_students %}
+
+                <tr>
+
+                    <td>
+
+                        <div class="student-name">
+
+                            <div class="student-avatar">
+                                👨‍🎓
+                            </div>
+
+                            {{ student.name }}
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="roll-badge">
+                            {{ student.roll_no }}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="class-badge">
+                            {{ student.school_class }}
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+
+                    <td
+                        colspan="3"
+                        style="text-align:center; padding:30px; color:#8a96a5;"
+                    >
+                        No students added yet.
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

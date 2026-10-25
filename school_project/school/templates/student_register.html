@@ -1,0 +1,267 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Registration | School IMS</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Constantia, "Times New Roman", Georgia, serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #ffffff;
+            color: #172b4d;
+        }
+
+        /* Simple Top Name */
+        .top-name {
+            text-align: center;
+            padding: 25px 0 10px;
+        }
+
+        .top-name h2 {
+            font-size: 27px;
+            color: #172b4d;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .top-name span {
+            color: #ff8c00;
+        }
+
+        /* Main */
+        .page-wrapper {
+            min-height: calc(100vh - 120px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px 20px;
+            background: #ffffff;
+        }
+
+        .register-card {
+            width: 520px;
+            background: #ffffff;
+            border: 1px solid #e3e6eb;
+            border-radius: 12px;
+            padding: 30px 35px;
+            box-shadow: 0 8px 30px rgba(23,43,77,0.10);
+        }
+
+        .register-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .register-title h1 {
+            font-size: 28px;
+            color: #172b4d;
+            margin-bottom: 6px;
+        }
+
+        .register-title p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #172b4d;
+            font-size: 14px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 11px 13px;
+            border: 1px solid #d6dce5;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+            background: #ffffff;
+            color: #333;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #ff8c00;
+            box-shadow: 0 0 0 2px rgba(255,140,0,0.10);
+        }
+
+        .register-btn {
+            width: 100%;
+            margin-top: 8px;
+            padding: 12px;
+            border: none;
+            border-radius: 7px;
+            background: #ff8c00;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .register-btn:hover {
+            background: #e97800;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #172b4d;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            color: #ff8c00;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #888;
+            font-size: 13px;
+            border-top: 1px solid #eeeeee;
+        }
+
+        @media (max-width: 600px) {
+            .register-card {
+                width: 100%;
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    
+
+    <!-- Registration -->
+    <main class="page-wrapper">
+
+        <div class="register-card">
+
+            <div class="register-title">
+                <h1>Student Registration</h1>
+                <p>Create your student account</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Enter full name"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Roll Number</label>
+                    <input
+                        type="text"
+                        name="roll_no"
+                        placeholder="Enter roll number"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Class</label>
+                    <select name="school_class" required>
+                        <option value="">Select Class</option>
+
+                        {% for school_class in classes %}
+                            <option value="{{ school_class.id }}">
+                                {{ school_class.name }} - {{ school_class.section }}
+                            </option>
+                        {% endfor %}
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Enter email"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input
+                        type="text"
+                        name="phone"
+                        placeholder="Enter phone number"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Username</label>
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Create username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Create password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="register-btn">
+                    Create Student Account
+                </button>
+
+            </form>
+
+            <div class="login-link">
+                Already have an account?
+                <a href="{% url 'student_login' %}">
+                    Student Login
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+   
+
+</body>
+</html>

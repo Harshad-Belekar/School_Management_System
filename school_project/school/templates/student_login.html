@@ -1,0 +1,260 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Login | School IMS</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Constantia, "Times New Roman", Georgia, serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #ffffff;
+            color: #172b4d;
+        }
+
+        /* School IMS */
+        .top-name {
+            text-align: center;
+            padding: 25px 0 10px;
+        }
+
+        .top-name h2 {
+            font-size: 27px;
+            color: #172b4d;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .top-name span {
+            color: #ff8c00;
+        }
+
+        /* Main */
+        .page-wrapper {
+            min-height: calc(100vh - 120px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px 20px;
+            background: #ffffff;
+        }
+
+        /* Login Card */
+        .login-card {
+            width: 430px;
+            background: #ffffff;
+            border: 1px solid #e3e6eb;
+            border-radius: 12px;
+            padding: 35px;
+            box-shadow: 0 8px 30px rgba(23, 43, 77, 0.10);
+        }
+
+        .login-title {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .login-title .icon {
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+        .login-title h1 {
+            font-size: 28px;
+            color: #172b4d;
+            margin-bottom: 6px;
+        }
+
+        .login-title p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #172b4d;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d6dce5;
+            border-radius: 7px;
+            outline: none;
+            font-size: 14px;
+            background: #ffffff;
+        }
+
+        input:focus {
+            border-color: #ff8c00;
+            box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.10);
+        }
+
+        /* Login Button */
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: none;
+            border-radius: 7px;
+            background: #ff8c00;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background: #e97800;
+        }
+
+        /* Register */
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #172b4d;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            color: #ff8c00;
+        }
+
+        /* Back Home */
+        .back-home {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .back-home a {
+            display: inline-block;
+            padding: 9px 20px;
+            border: 1px solid #172b4d;
+            border-radius: 7px;
+            color: #172b4d;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .back-home a:hover {
+            background: #172b4d;
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 15px;
+            color: #888;
+            font-size: 13px;
+            border-top: 1px solid #eeeeee;
+        }
+
+        @media (max-width: 600px) {
+            .login-card {
+                width: 100%;
+                padding: 28px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+  
+
+    <!-- Login -->
+    <main class="page-wrapper">
+
+        <div class="login-card">
+
+            <div class="login-title">
+                <div class="icon">🎓</div>
+
+                <h1>Student Login</h1>
+
+                <p>
+                    Login to access your student dashboard
+                </p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Username</label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Enter your username"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
+
+                <button type="submit" class="login-btn">
+                    Student Login
+                </button>
+
+            </form>
+
+            <!-- Register -->
+            <div class="register-link">
+                Don't have an account?
+                <a href="{% url 'student_register' %}">
+                    Register Now
+                </a>
+            </div>
+
+            <!-- Back to Home -->
+            <div class="back-home">
+                <a href="{% url 'home' %}">
+                    ← Back to Home
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+   
+
+</body>
+</html>

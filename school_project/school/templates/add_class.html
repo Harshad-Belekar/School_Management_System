@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Class{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet"
+      href="{% static 'add_class.css' %}">
+
+<div class="class-page">
+
+    <div class="class-card">
+
+        <!-- =================================
+             LEFT INFORMATION PANEL
+        ================================== -->
+
+        <div class="class-info">
+
+            <div class="info-header">
+                <h1>Add Class</h1>
+            </div>
+
+
+            <div class="class-avatar">
+                🏫
+            </div>
+
+
+            <div class="avatar-line">
+                ─── ● ───
+            </div>
+
+
+            <p class="info-text">
+                Create a new class and section
+                for your school.
+            </p>
+
+
+            <div class="info-item">
+
+                <div class="info-icon">
+                    📚
+                </div>
+
+                <div>
+                    <strong>Class Name</strong>
+                    <span>
+                        Enter class name
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-icon">
+                    🔤
+                </div>
+
+                <div>
+                    <strong>Section</strong>
+                    <span>
+                        Assign a section
+                    </span>
+                </div>
+
+            </div>
+
+
+            <div class="info-item">
+
+                <div class="info-icon">
+                    👨‍🎓
+                </div>
+
+                <div>
+                    <strong>Students</strong>
+                    <span>
+                        Students can be assigned later
+                    </span>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================
+             RIGHT FORM PANEL
+        ================================== -->
+
+        <div class="class-form">
+
+            <h2>Class Details</h2>
+
+            <div class="form-line"></div>
+
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="message-box">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+
+                <!-- FORM FIELDS -->
+
+                {% for field in form %}
+
+                    <div class="form-group">
+
+                        <label for="{{ field.id_for_label }}">
+
+                            {{ field.label }}
+
+                            {% if field.field.required %}
+                                <span>*</span>
+                            {% endif %}
+
+                        </label>
+
+
+                        {{ field }}
+
+
+                        {% for error in field.errors %}
+
+                            <small class="error">
+                                {{ error }}
+                            </small>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endfor %}
+
+
+                {% if form.non_field_errors %}
+
+                    <div class="form-error">
+
+                        {% for error in form.non_field_errors %}
+
+                            {{ error }}
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- BUTTONS -->
+
+                <div class="button-area">
+
+                    <button
+                        type="submit"
+                        class="save-btn">
+
+                        💾 &nbsp; Save Class
+
+                    </button>
+
+
+                    <a
+                        href="{% url 'classes' %}"
+                        class="cancel-btn">
+
+                        ← &nbsp; Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

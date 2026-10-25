@@ -1,0 +1,583 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Fees | School IMS{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+<style>
+
+    .fees-page {
+        max-width: 1450px;
+        margin: 0 auto;
+        padding: 25px 10px 40px;
+    }
+
+    /* HEADER */
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        gap: 20px;
+    }
+
+    .page-title h2 {
+        margin: 0;
+        color: #172b4d;
+        font-family: Constantia, "Times New Roman", serif;
+        font-weight: 700;
+    }
+
+    .page-title p {
+        margin: 5px 0 0;
+        color: #777;
+    }
+
+    /* ORANGE ADD BUTTON */
+
+    .add-btn {
+        display: inline-block;
+        text-decoration: none;
+        background: linear-gradient(135deg, #ffb51b, #ff7900);
+        color: white;
+        padding: 11px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+        box-shadow: 0 5px 15px rgba(255, 121, 0, .25);
+        transition: .2s ease;
+    }
+
+    .add-btn:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(255, 121, 0, .30);
+    }
+
+    /* CARD */
+
+    .data-card {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 8px 25px rgba(23, 43, 77, .08);
+        border: 1px solid #edf0f5;
+    }
+
+    .form-title {
+        color: #172b4d;
+        font-family: Constantia, "Times New Roman", serif;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    /* FORM */
+
+    .form-label {
+        font-weight: 600;
+        color: #344563;
+        margin-bottom: 7px;
+    }
+
+    .school-input,
+    .school-select {
+        width: 100%;
+        height: 45px;
+        border: 1px solid #dfe3e8;
+        border-radius: 9px;
+        padding: 8px 12px;
+        background: #fff;
+        outline: none;
+        font-family: Constantia, "Times New Roman", serif;
+    }
+
+    .school-input:focus,
+    .school-select:focus {
+        border-color: #ff9800;
+        box-shadow: 0 0 0 3px rgba(255, 152, 0, .12);
+    }
+
+    /* SAVE BUTTON */
+
+    .save-btn {
+        height: 45px;
+        border: none;
+        border-radius: 9px;
+        background: linear-gradient(135deg, #ffb51b, #ff7900);
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        transition: .2s ease;
+    }
+
+    .save-btn:hover {
+        opacity: .92;
+        transform: translateY(-1px);
+    }
+
+    /* CHECKBOX */
+
+    .payment-check {
+        height: 45px;
+        display: flex;
+        align-items: center;
+        padding-left: 5px;
+    }
+
+    .payment-check .form-check-input {
+        width: 19px;
+        height: 19px;
+        cursor: pointer;
+        margin-right: 8px;
+    }
+
+    .payment-check .form-check-label {
+        color: #344563;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    /* TABLE */
+
+    .table-title {
+        color: #172b4d;
+        font-family: Constantia, "Times New Roman", serif;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    .school-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .school-table thead th {
+        background: #172b4d;
+        color: white;
+        padding: 14px 12px;
+        text-align: left;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .school-table tbody td {
+        padding: 14px 12px;
+        border-bottom: 1px solid #edf0f5;
+        color: #344563;
+        vertical-align: middle;
+    }
+
+    .school-table tbody tr:hover {
+        background: #fffaf2;
+    }
+
+    /* STUDENT */
+
+    .student-name {
+        color: #172b4d;
+        font-weight: 700;
+    }
+
+    /* AMOUNT */
+
+    .amount-text {
+        color: #172b4d;
+        font-weight: 700;
+    }
+
+    /* PAID BADGE */
+
+    .paid-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: #e7f7ee;
+        color: #18864b;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    /* UNPAID BADGE */
+
+    .unpaid-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: #fde8e8;
+        color: #d93025;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    /* ACTION BUTTON */
+
+    .edit-btn {
+        display: inline-block;
+        text-decoration: none;
+        padding: 7px 13px;
+        border-radius: 8px;
+        background: #fff1d6;
+        color: #e87500;
+        font-size: 13px;
+        font-weight: 700;
+        transition: .2s ease;
+    }
+
+    .edit-btn:hover {
+        background: #ffb51b;
+        color: white;
+    }
+
+    /* EMPTY */
+
+    .empty-row {
+        text-align: center !important;
+        padding: 40px !important;
+        color: #888 !important;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 768px) {
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .add-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .data-card {
+            padding: 16px;
+        }
+
+        .school-table {
+            min-width: 850px;
+        }
+    }
+
+</style>
+
+
+<div class="fees-page">
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <div class="page-title">
+
+            <h2>💰 Fees</h2>
+
+            <p>
+                Manage student fee records and payments.
+            </p>
+
+        </div>
+
+
+        <a href="#fee-form" class="add-btn">
+
+            + Add Fee
+
+        </a>
+
+    </div>
+
+
+    <!-- ADD FEE -->
+
+    <div class="data-card" id="fee-form">
+
+        <h5 class="form-title">
+
+            Add New Fee
+
+        </h5>
+
+
+        <form method="post">
+
+            {% csrf_token %}
+
+
+            <div class="row g-3">
+
+
+                <!-- STUDENT -->
+
+                <div class="col-md-4">
+
+                    <label class="form-label">
+
+                        Student
+
+                    </label>
+
+
+                    <select
+                        name="student"
+                        class="school-select"
+                        required>
+
+                        <option value="">
+
+                            Select Student
+
+                        </option>
+
+
+                        {% for student in students %}
+
+                        <option value="{{ student.id }}">
+
+                            {{ student.name }} -
+                            {{ student.school_class }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- AMOUNT -->
+
+                <div class="col-md-3">
+
+                    <label class="form-label">
+
+                        Amount
+
+                    </label>
+
+
+                    <input
+                        type="number"
+                        name="amount"
+                        class="school-input"
+                        step="0.01"
+                        min="0.01"
+                        placeholder="Enter amount"
+                        required>
+
+                </div>
+
+
+                <!-- PAID -->
+
+                <div class="col-md-3 d-flex align-items-end">
+
+                    <div class="payment-check">
+
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="paid"
+                            id="paid">
+
+
+                        <label
+                            class="form-check-label"
+                            for="paid">
+
+                            Paid
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SAVE -->
+
+                <div class="col-md-2 d-flex align-items-end">
+
+                    <button
+                        type="submit"
+                        class="save-btn w-100">
+
+                        Save Fee
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- FEE RECORDS -->
+
+    <div class="data-card">
+
+        <h5 class="table-title">
+
+            📋 Fee Records
+
+        </h5>
+
+
+        <div class="table-responsive">
+
+            <table class="school-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Student</th>
+
+                        <th>Amount</th>
+
+                        <th>Date</th>
+
+                        <th>Status</th>
+
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for fee in fees %}
+
+                    <tr>
+
+
+                        <td>
+
+                            {{ forloop.counter }}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="student-name">
+
+                                {{ fee.student.name }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="amount-text">
+
+                                ₹{{ fee.amount }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            {{ fee.date }}
+
+                        </td>
+
+
+                        <td>
+
+
+                            {% if fee.paid %}
+
+                            <span class="paid-badge">
+
+                                ✓ Paid
+
+                            </span>
+
+                            {% else %}
+
+                            <span class="unpaid-badge">
+
+                                ✕ Unpaid
+
+                            </span>
+
+                            {% endif %}
+
+
+                        </td>
+
+
+                        <td>
+
+                            <a
+                                href="{% url 'fee_toggle' fee.pk %}"
+                                class="edit-btn">
+
+
+                                {% if fee.paid %}
+
+                                    Mark Unpaid
+
+                                {% else %}
+
+                                    Mark Paid
+
+                                {% endif %}
+
+
+                            </a>
+
+                        </td>
+
+
+                    </tr>
+
+
+                    {% empty %}
+
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="empty-row">
+
+                            📭 No fee records found.
+
+                        </td>
+
+                    </tr>
+
+
+                    {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

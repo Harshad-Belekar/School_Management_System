@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Add Study Material | School IMS{% endblock %}
+
+{% block content %}
+
+<style>
+    .material-page {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 20px;
+        font-family: Constantia, Georgia, "Times New Roman", serif;
+    }
+
+    .material-card {
+        background: white;
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 10px 30px rgba(23,43,77,.10);
+        border: 1px solid #e8edf3;
+    }
+
+    .header {
+        margin-bottom: 28px;
+    }
+
+    .header h2 {
+        margin: 0;
+        color: #172b4d;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .header p {
+        color: #6b7280;
+        margin-top: 8px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #172b4d;
+        font-weight: 700;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 13px 14px;
+        border: 1px solid #d5dce5;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 15px;
+        box-sizing: border-box;
+        outline: none;
+    }
+
+    .form-control:focus {
+        border-color: #ff9800;
+        box-shadow: 0 0 0 3px rgba(255,152,0,.12);
+    }
+
+    textarea.form-control {
+        min-height: 130px;
+        resize: vertical;
+    }
+
+    .buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 28px;
+    }
+
+    .save-btn {
+        border: none;
+        padding: 13px 25px;
+        border-radius: 10px;
+        background: linear-gradient(135deg,#ffb51b,#ff7900);
+        color: white;
+        font-family: inherit;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    .back-btn {
+        padding: 13px 25px;
+        border-radius: 10px;
+        background: #172b4d;
+        color: white;
+        text-decoration: none;
+        font-weight: 700;
+    }
+
+    .save-btn:hover,
+    .back-btn:hover {
+        opacity: .9;
+        color: white;
+    }
+
+    .error-message {
+        background: #fdecec;
+        color: #b42318;
+        padding: 12px 15px;
+        border-radius: 9px;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    @media(max-width:600px) {
+        .material-card {
+            padding: 22px;
+        }
+
+        .buttons {
+            flex-direction: column;
+        }
+
+        .save-btn,
+        .back-btn {
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="material-page">
+
+    <div class="material-card">
+
+        <div class="header">
+            <h2>📚 Add Study Material</h2>
+            <p>Add a learning resource for students.</p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error-message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Material Title</label>
+                <input
+                    type="text"
+                    name="title"
+                    class="form-control"
+                    placeholder="Enter material title"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Subject</label>
+                <input
+                    type="text"
+                    name="subject"
+                    class="form-control"
+                    placeholder="Example: Python, Mathematics, Science"
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea
+                    name="description"
+                    class="form-control"
+                    placeholder="Enter material description..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Study Material Link</label>
+                <input
+                    type="url"
+                    name="link"
+                    class="form-control"
+                    placeholder="https://example.com/study-material">
+            </div>
+
+            <div class="buttons">
+
+                <button type="submit" class="save-btn">
+                    💾 Save Material
+                </button>
+
+                <a href="{% url 'study_materials_admin' %}" class="back-btn">
+                    ← Back
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

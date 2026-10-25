@@ -1,0 +1,375 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Teachers | School IMS{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'style.css' %}">
+
+<style>
+
+    .teachers-page {
+        max-width: 1450px;
+        margin: 0 auto;
+        padding: 25px 10px 40px;
+    }
+
+    /* HEADER */
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+        gap: 20px;
+    }
+
+    .page-title h2 {
+        margin: 0;
+        color: #172b4d;
+        font-family: Constantia, "Times New Roman", serif;
+        font-weight: 700;
+    }
+
+    .page-title p {
+        margin: 5px 0 0;
+        color: #777;
+    }
+
+    /* ORANGE ADD BUTTON */
+
+    .add-btn {
+        display: inline-block;
+        text-decoration: none;
+        background: linear-gradient(135deg, #ffb51b, #ff7900);
+        color: white;
+        padding: 11px 20px;
+        border-radius: 10px;
+        font-weight: 700;
+        border: none;
+        box-shadow: 0 5px 15px rgba(255, 121, 0, .25);
+        transition: .2s ease;
+    }
+
+    .add-btn:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(255, 121, 0, .30);
+    }
+
+    /* CARD */
+
+    .data-card {
+        background: white;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(23, 43, 77, .08);
+        border: 1px solid #edf0f5;
+    }
+
+    .table-title {
+        color: #172b4d;
+        font-family: Constantia, "Times New Roman", serif;
+        font-weight: 700;
+        margin-bottom: 18px;
+    }
+
+    /* TABLE */
+
+    .school-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .school-table thead th {
+        background: #172b4d;
+        color: white;
+        padding: 14px 12px;
+        text-align: left;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .school-table tbody td {
+        padding: 14px 12px;
+        border-bottom: 1px solid #edf0f5;
+        color: #344563;
+        vertical-align: middle;
+    }
+
+    .school-table tbody tr:hover {
+        background: #fffaf2;
+    }
+
+    /* TEACHER NAME */
+
+    .teacher-name {
+        color: #172b4d;
+        font-weight: 700;
+    }
+
+    /* SUBJECT */
+
+    .class-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: #fff1d6;
+        color: #e87500;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    /* EMAIL */
+
+    .email-text {
+        color: #4a5568;
+    }
+
+    /* EDIT BUTTON */
+
+    .edit-btn {
+        display: inline-block;
+        text-decoration: none;
+        padding: 7px 13px;
+        border-radius: 8px;
+        background: #fff1d6;
+        color: #e87500;
+        font-size: 13px;
+        font-weight: 700;
+        margin-right: 5px;
+        transition: .2s ease;
+    }
+
+    .edit-btn:hover {
+        background: #ffb51b;
+        color: white;
+    }
+
+    /* DELETE BUTTON */
+
+    .delete-btn {
+        display: inline-block;
+        text-decoration: none;
+        padding: 7px 13px;
+        border-radius: 8px;
+        background: #fde8e8;
+        color: #d93025;
+        font-size: 13px;
+        font-weight: 700;
+        transition: .2s ease;
+    }
+
+    .delete-btn:hover {
+        background: #d93025;
+        color: white;
+    }
+
+    /* EMPTY */
+
+    .empty-row {
+        text-align: center !important;
+        padding: 40px !important;
+        color: #888 !important;
+    }
+
+    /* MOBILE */
+
+    @media (max-width: 768px) {
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .add-btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .data-card {
+            padding: 16px;
+        }
+
+        .school-table {
+            min-width: 900px;
+        }
+
+    }
+
+</style>
+
+
+<div class="teachers-page">
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+        <div class="page-title">
+
+            <h2>👨‍🏫 Teachers</h2>
+
+            <p>
+                Manage teachers and their subject details.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'teacher_add' %}"
+            class="add-btn">
+
+            + Add Teacher
+
+        </a>
+
+    </div>
+
+
+    <!-- TEACHER RECORDS -->
+
+    <div class="data-card">
+
+        <h5 class="table-title">
+
+            📋 Teacher Records
+
+        </h5>
+
+
+        <div class="table-responsive">
+
+            <table class="school-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Name</th>
+
+                        <th>Email</th>
+
+                        <th>Phone</th>
+
+                        <th>Subject</th>
+
+                        <th>Actions</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for teacher in teachers %}
+
+                    <tr>
+
+
+                        <td>
+
+                            {{ forloop.counter }}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="teacher-name">
+
+                                {{ teacher.name }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="email-text">
+
+                                {{ teacher.email|default:"—" }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            {{ teacher.phone|default:"—" }}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="class-badge">
+
+                                {{ teacher.subject }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td class="text-nowrap">
+
+
+                            <a
+                                href="{% url 'teacher_edit' teacher.pk %}"
+                                class="edit-btn">
+
+                                Edit
+
+                            </a>
+
+
+                            <a
+                                href="{% url 'teacher_delete' teacher.pk %}"
+                                class="delete-btn"
+                                onclick="return confirm('Delete this teacher?');">
+
+                                Delete
+
+                            </a>
+
+
+                        </td>
+
+                    </tr>
+
+
+                    {% empty %}
+
+                    <tr>
+
+                        <td
+                            colspan="6"
+                            class="empty-row">
+
+                            📭 No teachers found.
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,627 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Academic Progress | School Management System</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Constantia, "Times New Roman", Georgia, serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background:
+                linear-gradient(
+                    rgba(244,247,251,0.94),
+                    rgba(244,247,251,0.94)
+                ),
+                url("{% static 'admin.png' %}");
+
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+
+            color: #172b4d;
+        }
+
+
+        /* ================= HEADER ================= */
+
+        .student-header {
+
+            height: 72px;
+
+            background: linear-gradient(
+                135deg,
+                #172b4d,
+                #243f68
+            );
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 35px;
+
+            box-shadow:
+                0 5px 18px rgba(23,43,77,0.18);
+        }
+
+
+        .student-brand {
+
+            color: white;
+
+            font-size: 23px;
+
+            font-weight: bold;
+        }
+
+
+        .student-brand span {
+
+            color: #ffb51b;
+        }
+
+
+        /* ================= PAGE ================= */
+
+        .progress-page {
+
+            max-width: 1150px;
+
+            margin: 45px auto;
+
+            padding: 0 20px 40px;
+        }
+
+
+        /* ================= TITLE ================= */
+
+        .progress-title {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .progress-icon {
+
+            width: 60px;
+            height: 60px;
+
+            margin: 0 auto 12px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #fff3df;
+
+            border-radius: 16px;
+
+            font-size: 30px;
+
+            box-shadow:
+                0 6px 15px rgba(23,43,77,0.08);
+        }
+
+
+        .progress-title h1 {
+
+            color: #172b4d;
+
+            font-size: 36px;
+
+            font-weight: bold;
+        }
+
+
+        .progress-title h1 span {
+
+            color: #ff8a00;
+        }
+
+
+        .progress-title p {
+
+            margin-top: 8px;
+
+            color: #718096;
+
+            font-size: 14px;
+        }
+
+
+        /* ================= PROGRESS CARDS ================= */
+
+        .progress-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 22px;
+
+            margin-bottom: 24px;
+        }
+
+
+        .progress-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            background: rgba(255,255,255,0.98);
+
+            border: 1px solid #e5eaf1;
+
+            border-radius: 17px;
+
+            padding: 28px;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 24px rgba(23,43,77,0.09);
+
+            transition: 0.3s;
+        }
+
+
+        .progress-card:hover {
+
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 14px 30px rgba(23,43,77,0.14);
+        }
+
+
+        .card-icon {
+
+            width: 55px;
+            height: 55px;
+
+            margin: 0 auto 14px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #fff3df;
+
+            border-radius: 14px;
+
+            font-size: 25px;
+        }
+
+
+        .progress-card h3 {
+
+            color: #172b4d;
+
+            font-size: 18px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .percentage {
+
+            color: #ff8a00;
+
+            font-size: 38px;
+
+            font-weight: bold;
+
+            margin-bottom: 7px;
+        }
+
+
+        .progress-card p {
+
+            color: #718096;
+
+            font-size: 13px;
+        }
+
+
+        /* ================= PROGRESS BAR ================= */
+
+        .progress-bar-bg {
+
+            width: 100%;
+
+            height: 9px;
+
+            background: #edf1f5;
+
+            border-radius: 20px;
+
+            margin-top: 18px;
+
+            overflow: hidden;
+        }
+
+
+        .attendance-bar {
+
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                #ffb51b,
+                #ff7900
+            );
+
+            border-radius: 20px;
+
+            width: {{ attendance_percentage }}%;
+        }
+
+
+        .result-bar {
+
+            height: 100%;
+
+            background: linear-gradient(
+                90deg,
+                #285486,
+                #172b4d
+            );
+
+            border-radius: 20px;
+
+            width: {{ result_percentage }}%;
+        }
+
+
+        /* ================= SUBJECT CARD ================= */
+
+        .subjects-card {
+
+            background: rgba(255,255,255,0.98);
+
+            border: 1px solid #e5eaf1;
+
+            border-radius: 17px;
+
+            padding: 28px;
+
+            text-align: center;
+
+            box-shadow:
+                0 8px 24px rgba(23,43,77,0.09);
+
+            margin-bottom: 25px;
+        }
+
+
+        .subjects-icon {
+
+            width: 52px;
+            height: 52px;
+
+            margin: 0 auto 12px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #fff3df;
+
+            border-radius: 13px;
+
+            font-size: 24px;
+        }
+
+
+        .subjects-card h3 {
+
+            color: #172b4d;
+
+            font-size: 18px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .subjects-number {
+
+            color: #ff7900;
+
+            font-size: 34px;
+
+            font-weight: bold;
+
+            margin-bottom: 5px;
+        }
+
+
+        .subjects-card p {
+
+            color: #718096;
+
+            font-size: 13px;
+        }
+
+
+        /* ================= BACK BUTTON ================= */
+
+        .back-section {
+
+            margin-top: 20px;
+        }
+
+
+        .back-btn {
+
+            display: inline-block;
+
+            text-decoration: none;
+
+            background: linear-gradient(
+                135deg,
+                #ffb51b,
+                #ff7900
+            );
+
+            color: white;
+
+            padding: 11px 19px;
+
+            border-radius: 8px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            transition: 0.3s;
+
+            box-shadow:
+                0 5px 12px rgba(255,121,0,0.20);
+        }
+
+
+        .back-btn:hover {
+
+            background: #172b4d;
+
+            color: white;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        .student-footer {
+
+            text-align: center;
+
+            padding: 20px;
+
+            color: #7b8794;
+
+            font-size: 13px;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 700px) {
+
+            .student-header {
+
+                padding: 0 18px;
+            }
+
+
+            .student-brand {
+
+                font-size: 17px;
+            }
+
+
+            .progress-page {
+
+                margin: 25px auto;
+            }
+
+
+            .progress-title h1 {
+
+                font-size: 29px;
+            }
+
+
+            .progress-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= STUDENT HEADER ================= -->
+
+    <header class="student-header">
+
+        <div class="student-brand">
+
+            School <span>Management System</span>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ================= PROGRESS PAGE ================= -->
+
+    <main class="progress-page">
+
+
+        <!-- TITLE -->
+
+        <div class="progress-title">
+
+            <div class="progress-icon">
+                📊
+            </div>
+
+            <h1>
+                Academic <span>Progress</span>
+            </h1>
+
+            <p>
+                Track your overall academic performance
+            </p>
+
+        </div>
+
+
+
+        <!-- ================= PROGRESS ================= -->
+
+        <div class="progress-grid">
+
+
+            <!-- ATTENDANCE -->
+
+            <div class="progress-card">
+
+                <div class="card-icon">
+                    📅
+                </div>
+
+                <h3>
+                    Attendance
+                </h3>
+
+                <div class="percentage">
+                    {{ attendance_percentage }}%
+                </div>
+
+                <p>
+                    Overall Attendance
+                </p>
+
+
+                <div class="progress-bar-bg">
+
+                    <div class="attendance-bar"></div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RESULT -->
+
+            <div class="progress-card">
+
+                <div class="card-icon">
+                    📝
+                </div>
+
+                <h3>
+                    Academic Result
+                </h3>
+
+                <div class="percentage">
+                    {{ result_percentage }}%
+                </div>
+
+                <p>
+                    Overall Result
+                </p>
+
+
+                <div class="progress-bar-bg">
+
+                    <div class="result-bar"></div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ================= SUBJECTS ================= -->
+
+        <div class="subjects-card">
+
+            <div class="subjects-icon">
+                📚
+            </div>
+
+            <h3>
+                Subjects Evaluated
+            </h3>
+
+            <div class="subjects-number">
+                {{ total_results }}
+            </div>
+
+            <p>
+                Total subjects included in your academic evaluation
+            </p>
+
+        </div>
+
+
+
+        <!-- ================= BACK BUTTON ================= -->
+
+        <div class="back-section">
+
+            <a
+                href="{% url 'student_dashboard' %}"
+                class="back-btn"
+            >
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+
+    </main>
+
+
+
+   
+
+</body>
+
+</html>
